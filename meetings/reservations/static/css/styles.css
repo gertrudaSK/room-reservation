@@ -1,0 +1,105 @@
+* {
+box-sizing: border-box;
+}
+
+a {
+color: black !important;
+text-decoration: none;
+}
+
+
+body {
+background: url('../image/cover.jpg')no-repeat center center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+font-family: 'Heebo', sans-serif;
+color: white;
+}
+
+.wrapper {
+max-width: 1000px;
+margin: 0 auto;
+padding: 0 10px;
+}
+
+.logo{
+display: flex;
+justify-content: center;
+padding: 30px;
+
+}
+
+.logo:hover:{
+color: black;
+}
+
+.window{
+width: 100vh;
+justify=-content: center;
+
+}
+
+.reservation{
+width: 100vh;
+height: 50vh;
+display: flex;
+flex-direction: column;
+flex-wrap: nowrap;
+justify-content: center;
+align-items: center;
+align-content: stretch;
+
+}
+
+.title{
+margin-bottom: 50px;
+}
+
+.button{
+background-color: #5cb85c;
+color: white!important;
+font-size: 30px;
+border-radius: 12px;
+padding: 20px 20px;
+text-align: center;
+cursor: pointer;
+}
+
+.button:hover,
+.join:hover,
+a:hover{
+text-decoration:none!important;
+cursor: pointer;
+color: #5bc0de!important;
+}
+
+.join:hover{
+color: white;
+}
+.join{
+font-weight: normal;
+font-size: 20px;
+}
+
+.form{
+display: flex!important;}
+
+
+.navbar-nav{
+align-items: flex-end!important;
+font-size: 1.2rem!important;
+}
+
+.navbar-toggler{
+font-size: 2rem!important;
+}
+
+.navbar-light .navbar-toggler{
+border-color: transparent!important;
+}
+
+button:focus {
+outline: none!important;
+}
