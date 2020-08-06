@@ -5,6 +5,7 @@ from datetime import datetime
 
 
 class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='employee')
     name = models.CharField('Name', max_length=200)
     email = models.CharField('email', max_length=200)
 
@@ -14,15 +15,6 @@ class Employee(models.Model):
 
 class Rooms(models.Model):
     name = models.CharField('Name', max_length=200)
-    STATUS = (
-        ('a', 'available'),
-        ('u', 'unavailable'),
-    )
-
-    status = models.CharField(max_length=1,
-                              choices=STATUS,
-                              default='a'
-                              )
 
     def __str__(self):
         return self.name
@@ -48,9 +40,12 @@ class Profile(models.Model):
             img.save(self.nuotrauka.path)
 
 class Reservations(models.Model):
-    room_id = models.ForeignKey(Rooms, on_delete=models.SET_NULL, null=False, db_constraint=False)
-    employee_id =
+    room_id = models.ForeignKey(Rooms, on_delete=models.SET_NULL, null=True, db_constraint=False)
+    employee_id = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, db_constraint=False)
     date = models.DateField('Date', null=False, default=datetime.now, blank=False)
-    time_from = models.TimeField('Time From', null=False, default=datetime.now, blank=False)
-    time_due =
+    time_from = models.TimeField('Time From', null=False, blank=False)
+    time_due = models.TimeField('Time Due', null=False, blank=False)
+
+    def __str__(self):
+        return self.room_id.name
 

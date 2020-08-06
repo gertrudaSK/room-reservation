@@ -40,9 +40,19 @@
                     <a class="nav-link" href="{%url 'profile'%}"> <i class="las la-user"></i>Profile <span
                             class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">My Reservations</a>
+                     <li class="nav-item">
+                    <a class="nav-link" href="{%url 'select_room'%}">Reservate</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Room Availability</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'all_reservations'%}">All Reservations</a>
+                </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{%url 'create-room'%}">Create Room</a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{%url 'logout'%}">Logout</a>
                 </li>
@@ -56,10 +66,10 @@
     <!--/.Navbar-->
 
 
-    <div class="window">
+    <div class="window" style="margin: 0 auto;">
         {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info" style="background-color: transparent; border-color: transparent;" role="alert">
             {{ message }}
         </div>
         {% endfor %}
@@ -80,7 +90,9 @@
 </script>
 
 <script>
-        $('#datepicker').datepicker();
+        $('#datepicker').datepicker({
+       format: 'yyyy-mm-dd'
+        });
 
 </script>
 

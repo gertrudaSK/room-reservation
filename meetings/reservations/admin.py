@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Rooms, Employee, Profile
+from .models import Rooms, Employee, Profile, Reservations
 
 class RoomsAdmin(admin.ModelAdmin):
-    list_display = ('name', 'status')
+    list_display = ('name',)
 
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('name', 'email')
@@ -10,4 +10,5 @@ class EmployeeAdmin(admin.ModelAdmin):
 admin.site.register(Rooms, RoomsAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Profile)
+admin.site.register(Reservations)
 
