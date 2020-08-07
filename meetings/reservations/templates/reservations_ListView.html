@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Reservations</h1>
-
+{%if reservations%}
 <p>
 <form action="{% url 'search' %}" method="get" class="form-inline my-2 my-md-0">
 
@@ -19,7 +19,7 @@
 
 <div class="visits-list">
     <table class="table table-hover">
-        {%if reservations%}
+
         <tr>
             <th scope="col">Room</th>
             <th scope="col">Employee</th>
@@ -34,7 +34,7 @@
             <td>{{reservation.employee_id}}</td>
             <td>{{reservation.date|date:"Y-m-d"}}</td>
             <td>{{reservation.time_from|date:"H:i"}}</td>
-            <td>{{reservation.time_due|date:"H:i"}}</td>
+            <td>{{reservation.time_to|date:"H:i"}}</td>
             {%if reservation.employee_id == user.employee%}
             <td><a class="btn btn-danger btn-sm" href="{%url 'cancel' reservation.id %}"/>Cancel</td>
             {%endif%}
@@ -62,7 +62,9 @@
             {% endif %}
         </nav>
     </div>
-</div>
 
+</div>
+{%else%}
+    <p>Nothing found</p>
 {% endif %}
 {% endblock %}

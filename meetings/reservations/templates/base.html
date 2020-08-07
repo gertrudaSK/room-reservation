@@ -40,7 +40,7 @@
                     <a class="nav-link" href="{%url 'profile'%}"> <i class="las la-user"></i>Profile <span
                             class="sr-only">(current)</span></a>
                 </li>
-                     <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="{%url 'select_room'%}">Reservate</a>
                 </li>
                 <li class="nav-item">
@@ -49,7 +49,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{%url 'all_reservations'%}">All Reservations</a>
                 </li>
-                  <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="{%url 'create-room'%}">Create Room</a>
                 </li>
 
@@ -83,15 +83,22 @@
 <script>
         $('#timepicker1').timepicker();
 
+
 </script>
 <script>
         $('#timepicker2').timepicker();
 
+
 </script>
 
 <script>
+var nowDate = new Date();
+var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
         $('#datepicker').datepicker({
-       format: 'yyyy-mm-dd'
+       format: 'yyyy-mm-dd',
+        weekStartDay: 1,
+        disableDaysOfWeek: [0, 6],
+         minDate: today
         });
 
 </script>

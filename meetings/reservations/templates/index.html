@@ -4,11 +4,11 @@
 <section class="reservation">
    <h2 class="title"> Make Meeting Room Reservation</h2>
  {%if user.is_authenticated%}
-<a class="button" href="{%url 'select_room'%}">Reservate</a>
+<a class="button" style="padding: 15px 15px" href="{%url 'select_room'%}">Reservate</a>
 
 {%else%}
 
-<a class="button" href="{%url 'login'%}">Log In</a>
+<a class="button" style="padding: 15px 15px" href="{%url 'login'%}">Log In</a>
     <a class="join" href="{%url 'register'%}">Or create an account</a>
 </section>
 {%endif%}

@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Rooms, Employee, Profile, Reservations
 
 class RoomsAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('title',)
 
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('name', 'email')

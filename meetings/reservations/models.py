@@ -14,10 +14,10 @@ class Employee(models.Model):
 
 
 class Rooms(models.Model):
-    name = models.CharField('Name', max_length=200)
+    title = models.CharField('Title', max_length=200)
 
     def __str__(self):
-        return self.name
+        return self.title
 
     class Meta:
         verbose_name = "Room"
@@ -44,7 +44,7 @@ class Reservations(models.Model):
     employee_id = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, db_constraint=False)
     date = models.DateField('Date', null=False, default=datetime.now, blank=False)
     time_from = models.TimeField('Time From', null=False, blank=False)
-    time_due = models.TimeField('Time Due', null=False, blank=False)
+    time_to = models.TimeField('Time Due', null=False, blank=False)
     STATUS = (
         ('w', ('waiting')),
         ('d', ('done')),
