@@ -100,7 +100,42 @@ class RoomCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 def room_availability(request):
     datetime_now = datetime.now()
-    rooms = Rooms.objects.all()
+    rooms_all = Reservations.objects.all()
+    rooms = Reservations.objects.filter(date=datetime_now).all()
+    print("cia")
+    all_rooms = Rooms.objects.all()
+    all_rooms_list = [] #visi kambariai
+
+    for r in all_rooms:
+        all_rooms_list.append(r.name)
+
+    rooms_listed = [] #visi iteruoti
+    rooms_listed_unique = set() #visi iteruoti
+
+    available_rooms = set() #su w statusu
+    listas = [] #su w statusu
+    for room in rooms_all:
+        check_time = datetime.strptime(str(room.date) + " " + str(room.time_from), "%Y-%m-%d %H:%M:%S")
+        check_time_to = datetime.strptime(str(room.date) + " " + str(room.time_due), "%Y-%m-%d %H:%M:%S")
+        if check_time < datetime_now and check_time_to < datetime_now:
+            Reservations.objects.filter(id=room.id).update(status='d')
+    for booked in rooms:
+
+        # if check_time > datetime_now and room.status == "w":
+        #     listas.append(room.room_id.name)
+        if booked.status == "d" and booked.room_id.name not in listas:
+            listas.append(booked.room_id.name)
+
+    rooms_listed_unique.update((rooms_listed)) #VISI Praiteruoti
+    available_rooms.update(listas) #su w statusu
+    check_new = set(all_rooms_list) - set(rooms_listed)
+    available_rooms.update(list(check_new))
+    context = {
+        'available_rooms': available_rooms
+    }
+    return render(request, 'rooms_avaiable.html', context=context)
+
+
 
 
 

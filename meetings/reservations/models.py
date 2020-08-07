@@ -45,6 +45,18 @@ class Reservations(models.Model):
     date = models.DateField('Date', null=False, default=datetime.now, blank=False)
     time_from = models.TimeField('Time From', null=False, blank=False)
     time_due = models.TimeField('Time Due', null=False, blank=False)
+    STATUS = (
+        ('w', ('waiting')),
+        ('d', ('done')),
+        ('x', ('canceled')),
+    )
+
+    status = models.CharField(max_length=1,
+                              choices=STATUS,
+                              blank=True,
+                              default='w',
+                              help_text=('Status')
+                              )
 
     def __str__(self):
         return self.room_id.name

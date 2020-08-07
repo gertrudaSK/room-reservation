@@ -11,7 +11,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('history/<int:id>/canceled', views.cancel_reservation, name='cancel'),
     path('create/', views.RoomCreateView.as_view(), name='create-room'),
-
-
-
+    path('room_availability/', views.room_availability, name='room-availability'),
 ]
