@@ -105,3 +105,10 @@ button:focus {
 outline: none!important;
 }
 
+.profile-img{
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 28px 40px;
+    height: 200px;
+    width: 200px;
+}

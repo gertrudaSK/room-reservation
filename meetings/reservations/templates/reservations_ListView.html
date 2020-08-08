@@ -10,7 +10,9 @@
     <select class="form-control" name="query" type="text" id="exampleFormControlSelect1" onchange="this.form.submit()">
       <option selected>Filter by employee</option>
         {%for employee in employees%}
-      <option>{{employee.name}}</option>
+        {%if not employee.is_superuser%}
+      <option>{{employee.first_name}}</option>
+        {%endif%}
      {%endfor%}
     </select>
   </div>
@@ -35,7 +37,7 @@
             <td>{{reservation.date|date:"Y-m-d"}}</td>
             <td>{{reservation.time_from|date:"H:i"}}</td>
             <td>{{reservation.time_to|date:"H:i"}}</td>
-            {%if reservation.employee_id == user.employee%}
+            {%if reservation.employee_id.username == user.get_username%}
             <td><a class="btn btn-danger btn-sm" href="{%url 'cancel' reservation.id %}"/>Cancel</td>
             {%endif%}
 

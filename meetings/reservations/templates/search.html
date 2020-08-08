@@ -19,8 +19,8 @@
             <td>{{reservation.employee_id}}</td>
             <td>{{reservation.date|date:"Y-m-d"}}</td>
             <td>{{reservation.time_from|date:"H:i"}}</td>
-            <td>{{reservation.time_due|date:"H:i"}}</td>
-               {%if reservation.employee_id == user.employee%}
+            <td>{{reservation.time_to|date:"H:i"}}</td>
+               {%if reservation.employee_id.username == user.get_username%}
             <td><a class="btn btn-danger btn-sm" href="{%url 'cancel' reservation.id %}"/>Cancel</td>
             {%endif%}
 

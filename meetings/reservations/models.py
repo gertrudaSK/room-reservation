@@ -4,15 +4,6 @@ from PIL import Image
 from datetime import datetime
 
 
-class Employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='employee')
-    name = models.CharField('Name', max_length=200)
-    email = models.CharField('email', max_length=200)
-
-    def __str__(self):
-        return self.name
-
-
 class Rooms(models.Model):
     title = models.CharField('Title', max_length=200)
 
@@ -31,6 +22,7 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username} profile"
 
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super().save(force_insert, force_update, using, update_fields)
         img = Image.open(self.nuotrauka.path)
@@ -41,7 +33,7 @@ class Profile(models.Model):
 
 class Reservations(models.Model):
     room_id = models.ForeignKey(Rooms, on_delete=models.SET_NULL, null=True, db_constraint=False)
-    employee_id = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, db_constraint=False)
+    employee_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, db_constraint=False)
     date = models.DateField('Date', null=False, default=datetime.now, blank=False)
     time_from = models.TimeField('Time From', null=False, blank=False)
     time_to = models.TimeField('Time Due', null=False, blank=False)

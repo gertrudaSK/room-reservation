@@ -7,9 +7,14 @@
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="username">User name</label>
+            <label for="username">Username</label>
             <input name="username" required type="text" class="form-control" id="username"  aria-describedby="usernameHelp">
             <small id="usernameHelp" class="form-text">Max 150 symbols</small>
+        </div>
+                <div class="form-group">
+            <label for="first_name">Full Name</label>
+            <input name="first_name" required type="text" class="form-control" id="first_name"  aria-describedby="first_nameHelp">
+            <small id="first_nameHelp" class="form-text">Max 150 symbols</small>
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Email</label>
