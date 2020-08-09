@@ -7,7 +7,7 @@ The Meeting Room Reservation Program for Companies
 
 git clone https://github.com/gertrudaSK/room-reservation.git
 
-create the file 'email_settings.py' in ..meetings\meetings and put your email settings:
+create the file 'email_settings.py' in \room-reservation\meetings and put your email settings:
 
     email = 'your_email@gmail.com'
     email_password = 'your_email_pasword'
