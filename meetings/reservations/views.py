@@ -159,7 +159,7 @@ def reservations_list(request):
 def search(request):
     query = request.GET.get('query')
     search_results = Reservations.objects.filter(
-        Q(employee_id__username__icontains=query)).filter(
+        Q(employee_id__first_name__icontains=query)).filter(
         date__gte=datetime.now().date()).exclude(status="x").order_by(
         'date').all()
     context = {
