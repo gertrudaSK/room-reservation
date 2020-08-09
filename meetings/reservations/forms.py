@@ -11,8 +11,10 @@ class RoomCreateForm(forms.ModelForm):
     def clean_title(self):
         title = self.cleaned_data['title']
         if Rooms.objects.filter(title=title).exists():
-            raise forms.ValidationError("This title is already exists, please choose another one")
+            raise forms.ValidationError(
+                "This title is already exists, please choose another one")
         return title
+
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()

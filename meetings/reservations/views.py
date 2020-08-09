@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib import messages
-
 from .forms import RoomCreateForm, UserUpdateForm, ProfilisUpdateForm
 from .models import Rooms, Reservations
 from django.views.generic import CreateView
@@ -15,7 +14,8 @@ from django.db.models import Q
 from django.contrib.messages.views import SuccessMessageMixin
 import logging
 
-logging.getLogger('raven').setLevel(logging.WARNING)
+raven_logger = logging.getLogger('raven.base.Client')
+raven_logger.setLevel(logging.CRITICAL)
 
 logr = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ def profile(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages.success(request, f"Profile is now updated!")
+            messages.success(request, "Profile is now updated!")
             return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
@@ -56,11 +56,12 @@ def register(request):
             password = request.POST['password']
             password2 = request.POST['password2']
             pattern = re.compile(
-                r'^[0-9?A-z0-9?]+(\.)?[0-9?A-z0-9?]+@[A-z]+\.[A-z]{3}.?[A-z]{0,3}$')
+                r""" ^ [0 - 9?A - z0-9?] + (\.)?[0-9?A-z0-9?] + @[A-z] + \.[A-z]
+                {3}.?[A-z]{0, 3}$""")
             if password == password2:
                 if User.objects.filter(username=username).exists():
-                    messages.error(request,
-                                   f'User name {username} is already exists!')
+                    messages.error(request, 'User name {username} is already \
+                    exists!')
                     return redirect('register')
                 else:
                     if User.objects.filter(email=email).exists():
@@ -75,7 +76,8 @@ def register(request):
                                                  email=email,
                                                  password=password)
                         messages.success(request,
-                                         f"Congratulations - you can log in now!")
+                                         f"Congratulations - you can log in \
+                                         now!")
                         logr.info(f"Created new user {username}")
                         return redirect('index')
             else:
@@ -84,6 +86,13 @@ def register(request):
         return render(request, 'register.html')
     except Exception:
         messages.warning(request, 'All fields have to be filled!')
+
+
+def time_in_range(start, end, x):
+    if start <= end:
+        return start <= x <= end
+    else:
+        return start <= x or x <= end
 
 
 @csrf_exempt
@@ -108,16 +117,15 @@ def select_room(request):
                 date__gte=datetime.now().date()).all()
             for booked in check_rooms:
                 if str(booked.date) == str(date) and booked.status != "x":
-                    if time_in_range(booked.time_from, booked.time_to,
-                                     datetime.strptime(time_from,
-                                                       "%H:%M").time()) or time_in_range(
-                        booked.time_from,
-                        booked.time_to,
-                        datetime.strptime(
-                            time_to,
-                            "%H:%M").time()):
-                        messages.warning(request,
-                                         "This time is already taken, please check the schedule and select another one.")
+                    if time_in_range(
+                            booked.time_from, booked.time_to,
+                            datetime.strptime(time_from,
+                                              "%H:%M").time()) or \
+                            time_in_range(booked.time_from, booked.time_to,
+                                          datetime.strptime(time_to,
+                                                            "%H:%M").time()):
+                        messages.warning(request, "This time is already taken, \
+                        please check the schedule and select another one.")
                         logr.debug("Tried to choose booked time.")
                         return redirect('select_room')
 
@@ -126,7 +134,8 @@ def select_room(request):
                                         time_from=time_from,
                                         time_to=time_to)
             logr.info(
-                f"Created new reservation {room} - {date} {time_from} - {time_to}")
+                f"Created new reservation {room} - {date} {time_from} - \
+                {time_to}")
             messages.success(request, "The reservation successfully created!")
             return render(request, 'index.html')
         return render(request, 'room_select.html', context=context)
@@ -178,13 +187,6 @@ class RoomCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = "/reservations/"
     template_name = 'room_CreateView.html'
     success_message = "The meeting room was successfully created!"
-
-
-def time_in_range(start, end, x):
-    if start <= end:
-        return start <= x <= end
-    else:
-        return start <= x or x <= end
 
 
 def room_availability(request):

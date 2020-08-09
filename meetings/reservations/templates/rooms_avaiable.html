@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 <h3>Theese rooms are now available:</h3>
-
 <div class="visits-list">
-    <table class="table">
-
-        {%if available_rooms%}
-         {%for room in available_rooms%}
-        <tr>
-            <td scope="col">{{room}}</td>
-        </tr>
-              {%endfor%}
-    </table>
-    <a class="btn btn-success" style="color:white!important;" href="{%url 'select_room'%}">Reservate</a>
+   <table class="table">
+      {%if available_rooms%}
+      {%for room in available_rooms%}
+      <tr>
+         <td scope="col">{{room}}</td>
+      </tr>
+      {%endfor%}
+   </table>
+   <a class="btn btn-success" style="color:white!important;"
+      href="{%url 'select_room'%}">Reservate</a>
    {%else%}
-    <p>All rooms are booked. Try latter.</p>
+   <p>All rooms are booked. Try latter.</p>
 </div>
-
 {% endif %}
 {% endblock %}

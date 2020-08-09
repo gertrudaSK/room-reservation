@@ -1,37 +1,34 @@
 {%extends 'base.html'%}
 {% block content %}
-
 <article class="selection">
-
-    <div class="content-section">
-        <h2>The Meeting Room</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <select id="room" name="room" class="form-control">
-                    <option disabled="true" selected>Select the room</option>
-                    {%for p in rooms%}
-                    <option value="{{p.id}}">{{p.title}}</option>
-                    {%endfor%}
-                </select>
-            </div>
-
-            <section class="datetime_picker" style="display: flex; justify-content: space-between;">
-                <div class="form-group">
-                    <label for="datepicker">Date</label>
-                    <input id="datepicker" name="datepicker" width="276"/>
-                </div>
-                <div class="form-group">
-                    <label for="timepicker1">From</label>
-                    <input id="timepicker1" name="timepicker1" width="276"/>
-                </div>
-                <div class="form-group">
-                    <label for="timepicker2">Due</label>
-                    <input id="timepicker2" name="timepicker2" width="276"/>
-                </div>
-            </section>
-            <input class="btn btn-success" type="submit" value="OK">
-        </form>
-    </div>
-
-    {%endblock%}
+<div class="content-section">
+   <h2>The Meeting Room</h2>
+   <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+         <select id="room" name="room" class="form-control">
+            <option disabled="true" selected>Select the room</option>
+            {%for p in rooms%}
+            <option value="{{p.id}}">{{p.title}}</option>
+            {%endfor%}
+         </select>
+      </div>
+      <section class="datetime_picker"
+         style="display: flex; justify-content: space-between;">
+         <div class="form-group">
+            <label for="datepicker">Date</label>
+            <input id="datepicker" name="datepicker" width="276"/>
+         </div>
+         <div class="form-group">
+            <label for="timepicker1">From</label>
+            <input id="timepicker1" name="timepicker1" width="276"/>
+         </div>
+         <div class="form-group">
+            <label for="timepicker2">Due</label>
+            <input id="timepicker2" name="timepicker2" width="276"/>
+         </div>
+      </section>
+      <input class="btn btn-success" type="submit" value="OK">
+   </form>
+</div>
+{%endblock%}

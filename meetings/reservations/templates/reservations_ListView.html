@@ -3,70 +3,67 @@
 <h1>Reservations</h1>
 {%if reservations%}
 <p>
-<form action="{% url 'search' %}" method="get" class="form-inline my-2 my-md-0">
-
-     <div class="form-group">
-
-    <select class="form-control" name="query" type="text" id="exampleFormControlSelect1" onchange="this.form.submit()">
-      <option selected>Filter by employee</option>
-        {%for employee in employees%}
-        {%if not employee.is_superuser%}
-      <option>{{employee.first_name}}</option>
-        {%endif%}
-     {%endfor%}
-    </select>
-  </div>
+<form action="{% url 'search' %}" method="get"
+   class="form-inline my-2 my-md-0">
+   <div class="form-group">
+      <select class="form-control" name="query" type="text"
+         id="exampleFormControlSelect1" onchange="this.form.submit()">
+         <option selected>Filter by employee</option>
+         {%for employee in employees%}
+         {%if not employee.is_superuser%}
+         <option>{{employee.first_name}}</option>
+         {%endif%}
+         {%endfor%}
+      </select>
+   </div>
 </form>
 </p>
-
 <div class="visits-list">
-    <table class="table table-hover">
-
-        <tr>
-            <th scope="col">Room</th>
-            <th scope="col">Employee</th>
-            <th scope="col">Date</th>
-            <th scope="col">Date From</th>
-            <th scope="col">Date Due</th>
-
-        </tr>
-        {%for reservation in reservations%}
-        <tr>
-            <td>{{reservation.room_id}}</td>
-            <td>{{reservation.employee_id}}</td>
-            <td>{{reservation.date|date:"Y-m-d"}}</td>
-            <td>{{reservation.time_from|date:"H:i"}}</td>
-            <td>{{reservation.time_to|date:"H:i"}}</td>
-            {%if reservation.employee_id.username == user.get_username%}
-            <td><a class="btn btn-danger btn-sm" href="{%url 'cancel' reservation.id %}"/>Cancel</td>
-            {%endif%}
-
-            {%endfor%}
-    </table>
-
-
-    <div class="container puslapiai">
-        <nav aria-label="...">
-            {% if reservations.has_other_pages %}
-            <ul class="pagination pagination-sm justify-content-end">
-                {% for i in reservations.paginator.page_range %}
-                {% if reservations.number == i %}
-                <li class="page-item active">
-                    <a class="page-link" href="#">{{ i }}</a>
-                </li>
-                {% else %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                </li>
-                {% endif %}
-                {% endfor %}
-            </ul>
-            {% endif %}
-        </nav>
-    </div>
-
+   <table class="table table-hover">
+      <tr>
+         <th scope="col">Room</th>
+         <th scope="col">Employee</th>
+         <th scope="col">Date</th>
+         <th scope="col">Date From</th>
+         <th scope="col">Date Due</th>
+      </tr>
+      {%for reservation in reservations%}
+      <tr>
+         <td>{{reservation.room_id}}</td>
+         <td>{{reservation.employee_id}}</td>
+         <td>{{reservation.date|date:"Y-m-d"}}</td>
+         <td>{{reservation.time_from|date:"H:i"}}</td>
+         <td>{{reservation.time_to|date:"H:i"}}</td>
+         {%if reservation.employee_id.username == user.get_username%}
+         <td>
+            <a class="btn btn-danger btn-sm"
+               href="{%url 'cancel' reservation.id %}"/>
+               Cancel
+         </td>
+         {%endif%}
+         {%endfor%}
+   </table>
+   <div class="container puslapiai">
+   <nav aria-label="...">
+   {% if reservations.has_other_pages %}
+   <ul class="pagination pagination-sm justify-content-end">
+   {% for i in reservations.paginator.page_range %}
+   {% if reservations.number == i %}
+   <li class="page-item active">
+   <a class="page-link" href="#">{{ i }}</a>
+   </li>
+   {% else %}
+   <li class="page-item">
+   <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+   </li>
+   {% endif %}
+   {% endfor %}
+   </ul>
+   {% endif %}
+   </nav>
+   </div>
 </div>
 {%else%}
-    <p>Nothing found</p>
+<p>Nothing found</p>
 {% endif %}
 {% endblock %}
