@@ -5,7 +5,7 @@ The Meeting Room Reservation Program for Companies
 
 # Installation
 
-git clone https://gitlab.com/gertruda/reservation-program.git
+git clone https://github.com/gertrudaSK/room-reservation.git
 
 create the file 'email_settings.py' in ..meetings\meetings and put the email settings:
 
