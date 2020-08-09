@@ -14,17 +14,14 @@ from django.db.models import Q
 from django.contrib.messages.views import SuccessMessageMixin
 import logging
 
-raven_logger = logging.getLogger('raven.base.Client')
-raven_logger.setLevel(logging.CRITICAL)
-
-logr = logging.getLogger(__name__)
+logr = logging.getLogger('db')
 
 
 def index(request):
     return render(request, 'index.html')
 
 
-@login_required
+@login_required(login_url='/reservations/')
 def profile(request):
     if request.method == "POST":
         u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -55,9 +52,7 @@ def register(request):
             email = request.POST['email']
             password = request.POST['password']
             password2 = request.POST['password2']
-            pattern = re.compile(
-                r""" ^ [0 - 9?A - z0-9?] + (\.)?[0-9?A-z0-9?] + @[A-z] + \.[A-z]
-                {3}.?[A-z]{0, 3}$""")
+            pattern = re.compile(r"^\S+@\S+$")
             if password == password2:
                 if User.objects.filter(username=username).exists():
                     messages.error(request, 'User name {username} is already \
@@ -96,7 +91,7 @@ def time_in_range(start, end, x):
 
 
 @csrf_exempt
-@login_required
+@login_required(login_url='/reservations/')
 def select_room(request):
     rooms = Rooms.objects.all()
     context = {
@@ -134,7 +129,7 @@ def select_room(request):
                                         time_from=time_from,
                                         time_to=time_to)
             logr.info(
-                f"Created new reservation {room} - {date} {time_from} - \
+                f"Created new reservation {room} - {date} {time_from}-\
                 {time_to}")
             messages.success(request, "The reservation successfully created!")
             return render(request, 'index.html')
@@ -144,7 +139,7 @@ def select_room(request):
         return render(request, 'room_select.html', context=context)
 
 
-@login_required
+@login_required(login_url='/reservations/')
 def reservations_list(request):
     paginator = Paginator(
         Reservations.objects.filter(date__gte=datetime.now().date()).exclude(
@@ -160,6 +155,7 @@ def reservations_list(request):
     return render(request, 'reservations_ListView.html', context=context)
 
 
+@login_required(login_url='/reservations/')
 def search(request):
     query = request.GET.get('query')
     search_results = Reservations.objects.filter(
@@ -174,6 +170,7 @@ def search(request):
     return render(request, 'search.html', context=context)
 
 
+@login_required(login_url='/reservations/')
 def cancel_reservation(request, id):
     Reservations.objects.filter(id=id).update(status="x")
     messages.success(request, "The reservation successfully canceled!")
@@ -189,6 +186,7 @@ class RoomCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "The meeting room was successfully created!"
 
 
+@login_required(login_url='/reservations/')
 def room_availability(request):
     all_rooms = Rooms.objects.all()
     all_rooms_list = []

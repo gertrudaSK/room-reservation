@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
-import logging.config
+from .email_settings import email, email_password
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'django_db_logger',
 
 ]
 
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'meetings.urls'
@@ -129,33 +132,30 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_POST = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'viskoniekas@gmail.com'
-EMAIL_HOST_PASSWORD = 'slaptazodis'
+EMAIL_HOST_USER = email
+EMAIL_HOST_PASSWORD = email_password
 
-LOGGING_CONFIG = None
-logging.config.dictConfig({
+LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'console': {
-            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
         },
     },
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'console',
-        },
-        'sentry': {
+        'db_log': {
             'level': 'DEBUG',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-
+            'class': 'django_db_logger.db_log_handler.DatabaseLogHandler'
         },
     },
     'loggers': {
-        '': {
-            'level': 'DEBUG',
-            'handlers': ['console', 'sentry'],
-        },
-    },
-})
+        'db': {
+            'handlers': ['db_log'],
+            'level': 'DEBUG'
+        }
+    }
+}

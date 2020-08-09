@@ -1,1 +1,3 @@
 /venv/
+/meetings/meetings/email_settings.py
+/meetings/meetings/db.sqlite3
